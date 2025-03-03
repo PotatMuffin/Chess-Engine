@@ -1,5 +1,5 @@
-#ifndef PIECE_IMPLEMENTATION
-#define PIECE_IMPLEMENTATION
+#ifndef PIECE
+#define PIECE
 
 #define NONE   0b00000000
 #define KING   0b00000001
@@ -14,12 +14,14 @@
 #define COLORMASK 0b00011000
 #define PIECEMASK 0b00000111
 
+const int values[8] = {[PAWN] = 100, [KNIGHT] = 300, [BISHOP] = 300, [ROOK] = 500, [QUEEN] = 900};
+
 inline bool IsColour(char piece, char colour)
 {
     return (piece & COLORMASK) == colour;
 }
 
-inline char GetPieceColor(char piece)
+inline char GetPieceColour(char piece)
 {
     return (piece & COLORMASK);
 }

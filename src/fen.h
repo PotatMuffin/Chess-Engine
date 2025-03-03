@@ -1,5 +1,5 @@
-#ifndef FEN_IMPLEMENTATION
-#define FEN_IMPLEMENTATION
+#ifndef FEN
+#define FEN
 
 #include <stdlib.h>
 #include <stdio.h>

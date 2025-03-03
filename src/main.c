@@ -9,6 +9,8 @@
 #include "interface.h"
 #include "moveprecalculation.h"
 #include "movegeneration.h"
+#include "zobrist.h"
+#include "transpositiontable.h"
 
 Player players[2] = {0};
 
@@ -19,9 +21,16 @@ Rectangle GetPieceSprite(char piece);
 
 int main(int argc, char **argv) 
 {
-    players[0] = HUMAN;
+    printf("Transposition size: %d\n", sizeof(Transposition));
+    players[0] = NEGA;
     players[1] = NEGA;
     CalculateMoveData();
+    InitPieceSquareTable();
+    InitZobristKeys(&zobrist);
+
+    TranspositionTable tables[2] = {0};
+    if(players[0] == NEGA) InitTranspositionTable(&tables[0], 1024*1024*2);
+    if(players[1] == NEGA) InitTranspositionTable(&tables[1], 1024*1024*2);
 
     Board board = {0};
     InitBoard(&board, DEFAULT_FEN);
@@ -35,12 +44,14 @@ int main(int argc, char **argv)
     int width = GetMonitorWidth(monitor);
     int height = GetMonitorHeight(monitor);
     SetWindowSize(width, height);
-    // ToggleFullscreen();
+    ToggleFullscreen();
+    // SetExitKey(KEY_NULL);
 
     int offsetX = width/2-4*TILESIZE; 
     int offsetY = height/2-4*TILESIZE;
 
-    StartTurn(players[board.colourToMove >> 4], &board);
+    printf("zobrist key: %lu\n", board.zobristKey);
+    StartTurn(players[board.colourToMove >> 4], &board, &tables[board.colourToMove >> 4]);
     while(!WindowShouldClose())
     {
         BeginDrawing();
@@ -57,12 +68,10 @@ int main(int argc, char **argv)
             SelectSquare(START(move));
             SelectSquare(TARGET(move));
             MakeMove(&board, move);
+            printf("new zobrist: %lu\n", board.zobristKey);
             playedMoves.moves[playedMoves.count++] = move;
-            StartTurn(players[board.colourToMove >> 4], &board);
+            StartTurn(players[board.colourToMove >> 4], &board, &tables[board.colourToMove >> 4]);
         }
-
-        if(IsKeyDown(KEY_ESCAPE)) break;
-        if(IsKeyDown('R')) InitBoard(&board, DEFAULT_FEN);
     }
     CloseWindow();
 }

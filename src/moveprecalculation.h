@@ -1,5 +1,5 @@
-#ifndef MOVECALC_IMPLEMENTATION
-#define MOVECALC_IMPLEMENTATION
+#ifndef MOVECALC
+#define MOVECALC
 
 #include <stdint.h>
 #include <stdbool.h>

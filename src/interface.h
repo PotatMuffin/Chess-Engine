@@ -1,5 +1,5 @@
-#ifndef UI_IMPLEMENTATION
-#define UI_IMPLEMENTATION
+#ifndef UI
+#define UI
 
 #include "move.h"
 #include "board.h"

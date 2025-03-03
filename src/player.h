@@ -1,5 +1,5 @@
-#ifndef PLAYER_IMPLEMENTATION
-#define PLAYER_IMPLEMENTATION
+#ifndef PLAYER
+#define PLAYER
 #include <pthread.h>
 #include <stdlib.h>
 #include <time.h>
@@ -41,15 +41,18 @@ Move GetMove(Player player, Board *board, int offsetX, int offsetY)
     }
 }
 
-void StartTurn(Player player, Board *board)
+void StartTurn(Player player, Board *board, TranspositionTable *table)
 {
     if(player == NEGA)
     {
         pthread_t thread_id;
+        pthread_t abort_id;
         struct ThinkArgs *args = malloc(sizeof(struct ThinkArgs));
         args->board = board;
-        args->depth = 5;
-        pthread_create(&thread_id, NULL, Think, args);
+        args->table = table;
+        args->depth = 100;
+        pthread_create(&thread_id, NULL, (void * (*) (void*))Think, args);
+        pthread_create(&abort_id, NULL, (void * (*) (void*))ScheduleAbort, (void *)1);
     }
 }
 

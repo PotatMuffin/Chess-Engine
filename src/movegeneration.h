@@ -1,5 +1,5 @@
-#ifndef MOVEGEN_IMPLEMENTATION
-#define MOVEGEN_IMPLEMENTATION
+#ifndef MOVEGEN
+#define MOVEGEN
 #include <malloc.h>
 #include <x86intrin.h>
 #include "moveprecalculation.h"
@@ -18,12 +18,13 @@ static Bitboard allPiecesInverted;
 static Bitboard enemyPieces;
 static Bitboard enemyPiecesEnPassant;
 static Bitboard friendPiecesInverted;
-static Bitboard enemyAttacks;
+Bitboard enemyAttacks;
 static Bitboard attackBlocks;
 static Bitboard pinRays;
 static Bitboard queens;
 static Bitboard rooks;
 static Bitboard bishops;
+#include "movesort.h"
 
 Bitboard GeneralShift(Bitboard bitboard, int x);
 void GenerateKingMoves(MoveList *list, Board *board);
@@ -66,7 +67,6 @@ MoveList *GenerateMoves(Board *board)
     GenerateKnightMoves(moveList, board);
     GenerateSlidingMoves(moveList, board);
 
-    // printf("moves: %i\n", moveList->count);
     return moveList;
 }
 

@@ -1,5 +1,5 @@
-#ifndef INPUT_IMPLEMENTATION
-#define INPUT_IMPLEMENTATION
+#ifndef INPUT
+#define INPUT
 
 #include <stdio.h>
 #include <malloc.h>

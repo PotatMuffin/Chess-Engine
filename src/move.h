@@ -1,6 +1,9 @@
 #ifndef MOVE_IMPLEMENTATION
 #define MOVE_IMPLEMENTATION
 
+#include <stdint.h>
+#include "piece.h"
+
 enum MoveFlag {
     NOFLAG = 0,
     PAWN2FORDWARD = 1,
@@ -12,7 +15,7 @@ enum MoveFlag {
     CASTLE
 };
 
-typedef short Move;
+typedef uint16_t Move;
 typedef struct {
     Move moves[256];
     int count;
