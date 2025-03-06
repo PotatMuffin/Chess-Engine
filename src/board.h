@@ -51,7 +51,7 @@ void InitBoard(Board *board, char *fen)
 void MakeMove(Board *board, Move move) 
 {
     if(board->enPassant) board->zobristKey ^= zobrist.enPassant[board->enPassant%8];
-    board->enPassant = 0;
+    board->enPassant = -1;
     char pieceColour = board->colourToMove;
     bool isWhite = pieceColour == WHITE;
     int perspective = (isWhite) ? 1 : -1;

@@ -70,7 +70,7 @@ MoveList *GenerateMoves(Board *board)
     return moveList;
 }
 
-void GenerateKingMoves(MoveList *list, Board *board)
+inline void GenerateKingMoves(MoveList *list, Board *board)
 {
     Bitboard movesBitboard = kingMoves[kingSquare];
     movesBitboard &= friendPiecesInverted;
@@ -98,7 +98,7 @@ void GenerateKingMoves(MoveList *list, Board *board)
     }
 }
 
-void GeneratePawnMoves(MoveList *list, Board *board)
+inline void GeneratePawnMoves(MoveList *list, Board *board)
 {
     Bitboard pieces = board->pieceBoards[(PAWN | friendColour)-8];
     
@@ -185,7 +185,7 @@ void GeneratePawnMoves(MoveList *list, Board *board)
     }
 }
 
-void GenerateKnightMoves(MoveList *list, Board *board)
+inline void GenerateKnightMoves(MoveList *list, Board *board)
 {
     Bitboard pieces = board->pieceBoards[(KNIGHT | friendColour)-8];
 
@@ -207,7 +207,7 @@ void GenerateKnightMoves(MoveList *list, Board *board)
     }
 }
 
-void GenerateSlidingMoves(MoveList *list, Board *board)
+inline void GenerateSlidingMoves(MoveList *list, Board *board)
 {
     Bitboard pieces = board->pieceBoards[(ROOK | friendColour)-8];
     while (pieces)
@@ -269,7 +269,7 @@ void GenerateSlidingMoves(MoveList *list, Board *board)
     }
 }
 
-void GenerateAttackData(Board *board)
+inline void GenerateAttackData(Board *board)
 {
     int piecePos;
     Bitboard friendKing = board->pieceBoards[(KING | friendColour)-8];
@@ -405,7 +405,7 @@ void GenerateAttackData(Board *board)
     enemyAttacks |= kingMoves[piecePos];
 }
 
-bool IsEnPassantPin(char start, char target)
+inline bool IsEnPassantPin(char start, char target)
 {
     Bitboard mask = rookMasks[kingSquare];
     int offset = (friendColour == WHITE) ? -8 : 8;

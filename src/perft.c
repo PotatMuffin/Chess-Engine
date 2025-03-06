@@ -34,7 +34,7 @@ int main ()
     // cmdFile = fopen("./stockfish/cmd.txt\x00", "w");
     // numbersFile = fopen("./stockfish/num.txt\x00", "w");
 
-    for(int test = 3; test < 6; test++)
+    for(int test = 0; test < 6; test++)
     {
         printf("=== test %i ===\n", test+1);
         InitBoard(&board, FENs[test]);
