@@ -43,6 +43,42 @@ void Think(struct ThinkArgs *args)
     searching = false;
 }
 
+int QuiescenceSearch(Board *board, int alpha, int beta)
+{
+    if(aborted) return 0;
+    int eval = Eval(board);
+    int bestEval = negInfinity;
+    if (eval >= beta) return eval;
+    if (eval > alpha) alpha = eval;
+
+    MoveList *list = GenerateMoves(board);
+
+    for(int i = 0; i < list->count; i++)
+    {
+        Board b = *board;
+        Move move = list->moves[i];
+        int target = TARGET(move);
+        if (b.map[target] == NONE) continue;
+
+        MakeMove(&b, move);
+        int eval = -QuiescenceSearch(&b, -beta, -alpha);
+        if (eval > bestEval)
+        {
+            bestEval = eval;
+            if (eval > alpha) alpha = eval;
+        }
+        if (bestEval >= beta) 
+        {
+            free(list);
+            return bestEval; 
+        }
+    }
+
+    free(list);
+    if(bestEval == negInfinity) return eval;
+    return bestEval;
+}
+
 int Search(Board *board, int rootDistance, int depth, int alpha, int beta)
 {
     if(aborted) return 0;
@@ -56,6 +92,7 @@ int Search(Board *board, int rootDistance, int depth, int alpha, int beta)
     }
 
     if(depth == 0) return Eval(board);
+    // if(depth == 0) return QuiescenceSearch(board, -beta, -alpha);
 
     Move preferredMove = nullMove;
     int bestEval = negInfinity;
@@ -80,7 +117,7 @@ int Search(Board *board, int rootDistance, int depth, int alpha, int beta)
             preferredMove = move;
             if (eval > alpha) alpha = eval;
         }
-        if (eval >= beta) 
+        if (bestEval >= beta) 
         {
             AddTransposition(transpositionTable, depth, rootDistance, board->zobristKey, move, beta, CUT);
             free(list);

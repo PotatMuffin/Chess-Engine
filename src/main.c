@@ -21,7 +21,6 @@ Rectangle GetPieceSprite(char piece);
 
 int main(int argc, char **argv) 
 {
-    printf("Transposition size: %d\n", sizeof(Transposition));
     players[0] = NEGA;
     players[1] = NEGA;
     CalculateMoveData();

@@ -88,16 +88,30 @@ static const int KingSquaresEnd[64] =
     -50, -30, -30, -30, -30, -30, -30, -50
 };
 
+enum pieceSquareTableIndex 
+{
+    TableKingEnd   = 0b000, // KING - 1
+    TableKingStart = 0b001, // KING
+    TablePawnStart = 0b010, // PAWN
+    TableKnight    = 0b011, // KNIGHT
+    TablePawnEnd   = 0b100, // KNIGHT + 1
+    TableBishop    = 0b101, // BISHOP
+    TableRook      = 0b110, // ROOK
+    TableQueen     = 0b111, // QUEEN
+};
+
 int pieceSquareTables[64][8] = {0};
 
 void InitPieceSquareTable()
 {
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][KING] = kingSquaresStart[i];
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][KNIGHT] = knightSquares[i];
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][BISHOP] = bishopSquares[i];
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][ROOK] = rookSquares[i];
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][QUEEN] = queenSquares[i];
-    for(int i = 0; i < 64; i++) pieceSquareTables[i][PAWN] = pawnSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableKingStart] = kingSquaresStart[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableKingEnd] = KingSquaresEnd[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableKnight] = knightSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableBishop] = bishopSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableRook] = rookSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TableQueen] = queenSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TablePawnStart] = pawnSquares[i];
+    for(int i = 0; i < 64; i++) pieceSquareTables[i][TablePawnEnd] = pawnSquaresEnd[i];
 }
 
 inline int ReadTable(char pieceType, char square, bool isWhite)
